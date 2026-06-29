@@ -1515,3 +1515,25 @@
                 gap: 12px;
             }
         }
+.ad-container {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-sm);
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 600px;
+}
+
+.ad-container iframe {
+    border: none !important;
+    max-width: 100%;
+}
+
+@media (max-width: 600px) {
+    .ad-container {
+        min-height: 300px;
+        padding: 6px;
+    }
+}
