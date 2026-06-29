@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tic Tac Toe Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css"/> 
+    <!-- GOOGLE ADMOB SDK -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-2255556353397828~6598854479"
+         crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <canvas id="particles-canvas"></canvas>
+
+    <div class="app-container" id="app">
+
+        <div class="screen active" id="homeScreen">
+            <div class="home-top-row">
+                <button class="home-btn-top earn" id="earnBtnHome">+ Earn Ad Token</button>
+                <div class="home-title-area">
+                    <div class="home-title">Tic Tac Toe Pro</div>
+                    <div class="home-subtitle">Challenge Your Processor</div>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <button class="home-btn-top settings" id="settingsBtnHome">Settings</button>
+                    <button class="home-btn-top profile" id="profileBtnHome">Profile</button>
+                </div>
+            </div>
+
+            <div class="home-rank" id="homeRankDisplay">Rank: <span class="dash">—</span></div>
+
+            <div class="home-wallet">
+                <span class="item"><span class="label">Ad Token</span> <span class="value token" id="homeAdToken">0</span></span>
+                <span class="item"><span class="label">Debree</span> <span class="value debree" id="homeDebree">10</span></span>
+            </div>
+
+            <div class="home-main-buttons">
+                <button class="home-main-btn" id="singleplayerBtn">Singleplayer</button>
+                <button class="home-main-btn" id="multiplayerBtn">Multiplayer <span class="soon">(Coming Soon)</span></button>
+                <button class="home-main-btn" id="achievementsBtnHome">Achievements</button>
+            </div>
+
+            <div class="home-middle-row">
+                <button class="home-btn-center shop" id="shopBtnHome">Shop</button>
+            </div>
+        </div>
+
+        <div class="screen" id="difficultyScreen">
+            <button class="diff-back" id="diffBackBtn">← Back</button>
+            <div class="diff-title">Select Difficulty</div>
+            <div class="diff-list" id="diffList">
+                <div class="diff-card" data-diff="noob">
+                    <div class="diff-left">
+                        <div class="diff-name">Noob</div>
+                        <div class="diff-multiplier">1x</div>
+                    </div>
+                    <div class="diff-right"></div>
+                </div>
+                <div class="diff-card" data-diff="easy">
+                    <div class="diff-left">
+                        <div class="diff-name">Easy</div>
+                        <div class="diff-multiplier">1.5x</div>
+                    </div>
+                    <div class="diff-right"></div>
+                </div>
+                <div class="diff-card" data-diff="medium">
+                    <div class="diff-left">
+                        <div class="diff-name">Medium</div>
+                        <div class="diff-multiplier">2x</div>
+                    </div>
+                    <div class="diff-right"></div>
+                </div>
+                <div class="diff-card" data-diff="hard">
+                    <div class="diff-left">
+                        <div class="diff-name">Hard</div>
+                        <div class="diff-multiplier">3x</div>
+                    </div>
+                    <div class="diff-right">
+                        <span class="diff-badge ranked">Ranked</span>
+                    </div>
+                </div>
+                <div class="diff-card impossible-card" data-diff="impossible">
+                    <div class="diff-left">
+                        <div class="diff-name">Impossible</div>
+                        <div class="diff-multiplier">6x</div>
+                    </div>
+                    <div class="diff-right">
+                        <span class="diff-badge impossible">Ranked</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen" id="gameScreen">
+            <div class="game-top-row">
+                <div class="game-top-left">
+                    <button class="game-top-btn home-btn" id="gameHomeBtn">← Home</button>
+                    <span class="game-diff-display" id="gameDiffDisplay">Hard - 3x</span>
+                    <span class="game-rank-display" id="gameRankDisplay">Rank: <span class="dash">—</span></span>
+                </div>
+                <div class="game-top-right">
+                    <div class="game-wallet-small">
+                        <span class="item"><span class="label">AT</span> <span class="value token" id="gameAdToken">0</span></span>
+                        <span class="item"><span class="label">DB</span> <span class="value debree" id="gameDebree">10</span></span>
+                    </div>
+                    <button class="game-top-btn earn" id="earnBtnGame">+ Earn</button>
+                    <button class="game-top-btn settings" id="settingsBtnGame">Settings</button>
+                    <button class="game-top-btn profile" id="profileBtnGame">Profile</button>
+                </div>
+            </div>
+
+            <div class="timer-section">
+                <span class="timer-display" id="timerDisplay">00:00</span>
+                <span class="timer-reward" id="timerReward">Potential Reward: <span class="highlight">+0 Debree</span></span>
+            </div>
+
+            <div class="scoreboard">
+                <div class="score-item">
+                    <span class="label">Wins</span>
+                    <span class="value win" id="winsDisplay">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="label">Losses</span>
+                    <span class="value loss" id="lossesDisplay">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="label">Draws</span>
+                    <span class="value draw" id="drawsDisplay">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="label">Streak</span>
+                    <span class="value streak" id="streakDisplay">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="label">Total</span>
+                    <span class="value" id="totalDisplay">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="label">Rank</span>
+                    <span class="value rank" id="rankDisplay">—</span>
+                </div>
+            </div>
+<!-- ✅ AD GOES HERE - RIGHT BETWEEN scoreboard and board-wrapper -->
+            <div class="ad-container" style="margin: 10px auto; text-align: center; max-width: 160px;">
+                <script>
+                    atOptions = {
+                        'key' : '4015d951e799b7a924cc86fd52555b90',
+                        'format' : 'iframe',
+                        'height' : 600,
+                        'width' : 160,
+                        'params' : {}
+                    };
+                </script>
+                <script src="https://www.highperformanceformat.com/4015d951e799b7a924cc86fd52555b90/invoke.js"></script>
+            </div>
+            <div class="board-wrapper">
+                <div class="board" id="board">
+                    <div class="cell" data-index="0"></div>
+                    <div class="cell" data-index="1"></div>
+                    <div class="cell" data-index="2"></div>
+                    <div class="cell" data-index="3"></div>
+                    <div class="cell" data-index="4"></div>
+                    <div class="cell" data-index="5"></div>
+                    <div class="cell" data-index="6"></div>
+                    <div class="cell" data-index="7"></div>
+                    <div class="cell" data-index="8"></div>
+                </div>
+
+                <div class="game-status-row">
+                    <span class="status-text" id="statusText">Your turn <span class="highlight">(X)</span></span>
+                    <div class="game-actions">
+                        <button class="primary" id="newGameBtn">New Game</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="symbol-selector">
+                <span class="label">Play as:</span>
+                <div class="symbol-box x-symbol active" id="symbolX" data-symbol="X">X</div>
+                <div class="symbol-box o-symbol" id="symbolO" data-symbol="O">O</div>
+            </div>
+
+            <div class="game-bottom-bar">
+                <button class="game-bottom-btn shop" id="shopBtnGame">Shop</button>
+                <button class="game-bottom-btn achievements" id="achievementsBtnGame">Achievements</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal">
+            <button class="close-btn" data-close="profileModal">×</button>
+            <h2>Profile</h2>
+            <p class="subtitle">Manage your account and stats</p>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="profileUsername" placeholder="Enter username..." maxlength="16" />
+            </div>
+            <button class="btn-primary" id="profileSaveBtn">Save Profile</button>
+            <div class="profile-stats">
+                <div class="stat-card"><div class="num" id="pWins">0</div><div class="lbl">Wins</div></div>
+                <div class="stat-card"><div class="num" id="pLosses">0</div><div class="lbl">Losses</div></div>
+                <div class="stat-card"><div class="num" id="pDraws">0</div><div class="lbl">Draws</div></div>
+                <div class="stat-card"><div class="num" id="pStreak">0</div><div class="lbl">Streak</div></div>
+                <div class="stat-card"><div class="num" id="pTotal">0</div><div class="lbl">Total Games</div></div>
+                <div class="stat-card"><div class="num" id="pRank">—</div><div class="lbl">Rank</div></div>
+                
+            </div>
+            <div class="profile-currency">
+                <div class="item"><div class="label">Ad Token</div><div class="value token" id="pAdToken">0</div></div>
+                <div class="item"><div class="label">Debree</div><div class="value debree" id="pDebree">10</div></div>
+            </div>
+            <button class="btn-secondary" id="profileGuestBtn">Play as Guest</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="shopModal">
+        <div class="modal">
+            <button class="close-btn" data-close="shopModal">×</button>
+            <h2>Shop</h2>
+            <div class="shop-balance">Current Balance: <span class="highlight" id="shopAdToken">0</span> Ad Tokens</div>
+            <div class="shop-grid">
+                <div class="shop-card">
+                    <div class="amount">20</div>
+                    <div class="amount-label">Debree</div>
+                    <button id="shopBuy1">Buy For 5 Ad Tokens</button>
+                </div>
+                <div class="shop-card">
+                    <div class="amount">40</div>
+                    <div class="amount-label">Debree</div>
+                    <button id="shopBuy2">Buy For 10 Ad Tokens</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal">
+            <button class="close-btn" data-close="settingsModal">×</button>
+            <h2>Settings</h2>
+            <p class="subtitle">Customise your experience</p>
+            <div class="setting-row">
+                <div class="left"><span class="name">Sound Effects</span><span class="desc">Click &amp; win sounds</span></div>
+                <div class="right">
+                    <div class="toggle active" id="soundToggle"><div class="knob"></div></div>
+                </div>
+            </div>
+            <div class="setting-row">
+                <div class="left"><span class="name">Move Animations</span><span class="desc">Pop-in effect</span></div>
+                <div class="right">
+                    <div class="toggle active" id="animToggle"><div class="knob"></div></div>
+                </div>
+            </div>
+            <div class="setting-row">
+                <div class="left"><span class="name">Board Color</span><span class="desc">Pick your vibe</span></div>
+                <div class="right">
+                    <div class="color-picker-wrap">
+                        <input type="color" id="boardColorPicker" value="#6366f1" />
+                    </div>
+                </div>
+            </div>
+            <div class="setting-row">
+                <div class="left"><span class="name">Player Symbol</span><span class="desc">Choose X or O</span></div>
+                <div class="right">
+                    <div class="setting-symbol-selector">
+                        <div class="setting-symbol-box x-symbol active" id="settingSymbolX" data-symbol="X">X</div>
+                        <div class="setting-symbol-box o-symbol" id="settingSymbolO" data-symbol="O">O</div>
+                    </div>
+                </div>
+            </div>
+            <div class="danger-zone">
+                <button class="btn-danger" id="resetAllDataBtn">Reset All Data</button>
+                <span style="font-size:11px; color:var(--text-muted); display:block; margin-top:6px;">This will clear your stats, currency, and settings.</span>
+            </div>
+            <div style="margin-top:16px; text-align:center; font-size:12px; color:var(--text-muted);">
+                Tic Tac Toe Pro v1.0
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="achieveModal">
+        <div class="modal">
+            <button class="close-btn" data-close="achieveModal">×</button>
+            <h2>Achievements</h2>
+            <p class="subtitle">Your progress and milestones</p>
+            <div id="achievementList"></div>
+            <button class="btn-primary" data-close="achieveModal">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="multiModal">
+        <div class="modal" style="text-align:center;">
+            <button class="close-btn" data-close="multiModal">×</button>
+            <div style="font-size:48px; margin:12px 0 8px;">🎮</div>
+            <h2>Multiplayer</h2>
+            <p class="subtitle" style="margin-bottom:16px;">Coming soon! We're building something epic.</p>
+            <button class="btn-primary" data-close="multiModal" style="max-width:200px; margin:0 auto;">Got it!</button>
+        </div>
+    </div>
+ <script src="script.js"></script>
+<script src="https://pl30125360.effectivecpmnetwork.com/f9/ac/fe/f9acfee40583718098b9936b69eaadb2.js"></script>
+</body>
+</html>
