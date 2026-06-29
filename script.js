@@ -681,14 +681,17 @@
             });
 
             [earnBtnHome, earnBtnGame].forEach(btn => {
-                btn.addEventListener('click', () => {
-                    state.user.adToken += 1;
-                    updateUI();
-                    saveState();
-                    showToast('+1 Ad Token earned');
-                    playSound('click');
-                });
-            });
+    btn.addEventListener('click', () => {
+        window.open('https://www.effectivecpmnetwork.com/xkttn6mci3?key=ca5337eba36fa2e0528438b77a41f4ca', '_blank');  
+        setTimeout(() => {
+            state.user.adToken += 1;
+            updateUI();
+            saveState();
+            showToast('+1 Ad Token earned!');
+            playSound('click');
+        }, 5000);
+    });
+});
 
             [profileBtnHome, profileBtnGame].forEach(btn => {
                 btn.addEventListener('click', openProfile);
