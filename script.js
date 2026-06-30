@@ -550,7 +550,7 @@
                 resetBoard();
                 playSound('click');
                 showToast('Auto-starting new game...');
-            }, 300);
+            }, 70);
         }
     }
 
