@@ -12,6 +12,7 @@
                 matchStartTime: null,
                 timerInterval: null,
                 currentTime: 0,
+                autoStartEnabled: false,
 
                 stats: {
                     wins: 0,
@@ -129,6 +130,7 @@
                         user: state.user,
                         settings: state.settings,
                         achievements: state.achievements,
+                        autoStartEnabled: state.autoStartEnabled,
                     };
                     localStorage.setItem('tictactoe_pro_data', JSON.stringify(data));
                 } catch (_) {}
@@ -144,6 +146,8 @@
                     if (data.settings) Object.assign(state.settings, data.settings);
                     if (data.achievements) state.achievements = data.achievements;
                     return true;
+                    if (data.autoStartEnabled !== undefined) {
+                    state.autoStartEnabled = data.autoStartEnabled;
                 } catch (_) { return false; }
             }
 
@@ -279,7 +283,15 @@
 
                 saveState();
             }
-
+function toggleAutoStart() {
+    state.autoStartEnabled = !state.autoStartEnabled;
+    const btn = document.getElementById('autoStartToggle');
+    if (btn) {
+        btn.textContent = state.autoStartEnabled ? 'Auto-Start: ON' : 'Auto-Start: OFF';
+        btn.classList.toggle('active', state.autoStartEnabled);
+    }
+    saveState();
+}
             function startTimer() {
                 if (state.timerInterval) return;
                 state.matchStartTime = Date.now();
@@ -520,6 +532,16 @@
 
                 updateUI();
                 saveState();
+                      // AUTO START
+    if (state.autoStartEnabled) {
+        setTimeout(() => {
+            if (!state.gameOver && !state.gameCompleted) return;
+            resetBoard();
+            playSound('click');
+            showToast('Auto-starting new game...');
+        }, 1500);
+    }
+}
             }
 
             function resetBoard() {
@@ -1023,6 +1045,12 @@ function grantAdReward() {
 
             function init() {
                 loadState();
+                    const autoBtn = document.getElementById('autoStartToggle');
+    if (autoBtn) {
+        autoBtn.textContent = state.autoStartEnabled ? 'Auto-Start: ON' : 'Auto-Start: OFF';
+        autoBtn.classList.toggle('active', state.autoStartEnabled);
+        autoBtn.addEventListener('click', toggleAutoStart);
+    }
 
                 if (!state.user.debree && state.user.debree !== 0) state.user.debree = 10;
                 if (!state.user.adToken && state.user.adToken !== 0) state.user.adToken = 0;
