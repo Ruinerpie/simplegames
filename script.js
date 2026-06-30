@@ -679,57 +679,38 @@
             multiplayerBtn.addEventListener('click', () => {
                 multiModal.classList.add('open');
             });
+        
+                   // ===== GOOGLE ADMOB REWARDED AD SETUP =====
+const ADMOB_AD_UNIT_ID = 'ca-app-pub-2255556353397828/2342090869';
+let rewardedAd = null;
 
-            // ===== GOOGLE ADMOB REWARDED AD SETUP =====
-            const ADMOB_AD_UNIT_ID = 'ca-app-pub-2255556353397828/2342090869';
-            let rewardedAd = null;
+// Function to load AdMob rewarded ad
+function loadAdMobRewardedAd() {
+    if (typeof google !== 'undefined' && google.ima && google.ima.AdDisplayContainer) {
+        showToast('Loading rewarded ad...');
+        return true;
+    }
+    return false;
+}
 
-            // Function to load AdMob rewarded ad
-            function loadAdMobRewardedAd() {
-                // If Google Ad Manager (IMA SDK) is available
-                if (typeof google !== 'undefined' && google.ima && google.ima.AdDisplayContainer) {
-                    showToast('Loading rewarded ad...');
-                    // AdMob will auto-show ads on this page
-                    return true;
-                }
-                return false;
-            }
+// Grant reward to user
+function grantAdReward() {
+    state.user.adToken += 1;
+    updateUI();
+    saveState();
+    showToast('+1 Ad Token earned!');
+    playSound('click');
+}
 
-            // Fallback: Open Smartlink if AdMob is not available
-            function openSmartlinkAd() {
-                window.open('https://www.effectivecpmnetwork.com/xkttn6mci3?key=ca5337eba36fa2e0528438b77a41f4ca', '_blank');
-                showToast('Ad opened in new tab. Close it to get your reward!');
-                setTimeout(() => {
-                    grantAdReward();
-                }, 8000);
-            }
-
-            // Grant reward to user
-            function grantAdReward() {
-                state.user.adToken += 1;
-                updateUI();
-                saveState();
-                showToast('+1 Ad Token earned!');
-                playSound('click');
-            }
-
-            // Main reward button click handler
-            [earnBtnHome, earnBtnGame].forEach(btn => {
-                btn.addEventListener('click', () => {
-                    // Try AdMob first
-                    const adMobLoaded = loadAdMobRewardedAd();
-                    
-                    // If AdMob not available, use Smartlink fallback
-                    if (!adMobLoaded) {
-                        openSmartlinkAd();
-                    } else {
-                        // AdMob is loading - grant reward after timeout if no ads show
-                        setTimeout(() => {
-                            grantAdReward();
-                        }, 15000);
-                    }
-                });
-            });
+// Main reward button click handler
+[earnBtnHome, earnBtnGame].forEach(btn => {
+    btn.addEventListener('click', () => {
+        const adMobLoaded = loadAdMobRewardedAd();
+        setTimeout(() => {
+            grantAdReward();
+        }, 15000);
+    });
+});
 
             [profileBtnHome, profileBtnGame].forEach(btn => {
                 btn.addEventListener('click', openProfile);
