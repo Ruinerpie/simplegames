@@ -13,6 +13,7 @@
         timerInterval: null,
         currentTime: 0,
         autoStartEnabled: false,
+        autoStartTimeout: null,  // <-- ADDED: Store timeout for clearing
 
         stats: {
             wins: 0,
@@ -536,8 +537,15 @@
         updateUI();
         saveState();
 
+        // Clear any existing auto-start timeout
+        if (state.autoStartTimeout) {
+            clearTimeout(state.autoStartTimeout);
+            state.autoStartTimeout = null;
+        }
+
+        // AUTO START - Now stored so it can be cleared
         if (state.autoStartEnabled) {
-            setTimeout(() => {
+            state.autoStartTimeout = setTimeout(() => {
                 if (!state.gameOver && !state.gameCompleted) return;
                 resetBoard();
                 playSound('click');
@@ -681,6 +689,12 @@
     }
 
     function goHome() {
+        // Clear auto-start timeout if active
+        if (state.autoStartTimeout) {
+            clearTimeout(state.autoStartTimeout);
+            state.autoStartTimeout = null;
+        }
+
         if (state.screen === 'game' && !state.gameCompleted && state.matchStartTime) {
             showToast('Game incomplete - no reward earned');
             resetBoard();
@@ -898,6 +912,11 @@
         state.gameCompleted = false;
         state.currentPlayer = 'X';
         state.difficulty = 'hard';
+        // Clear auto-start timeout
+        if (state.autoStartTimeout) {
+            clearTimeout(state.autoStartTimeout);
+            state.autoStartTimeout = null;
+        }
         resetTimer();
         renderBoard();
         updateStatus();
@@ -920,6 +939,12 @@
     gameHomeBtn.addEventListener('click', goHome);
 
     newGameBtn.addEventListener('click', () => {
+        // Clear auto-start timeout if active
+        if (state.autoStartTimeout) {
+            clearTimeout(state.autoStartTimeout);
+            state.autoStartTimeout = null;
+        }
+
         if (!state.gameCompleted && state.matchStartTime) {
             showToast('Game incomplete - no reward');
         }
