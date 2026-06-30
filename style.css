@@ -1539,3 +1539,28 @@
         padding: 6px;
     }
 }
+
+#autoStartToggle {
+    padding: 6px 14px;
+    border-radius: 50px;
+    border: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: var(--font);
+}
+
+#autoStartToggle:hover {
+    border-color: var(--accent);
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+#autoStartToggle.active {
+    border-color: var(--green);
+    color: var(--green);
+    background: rgba(16, 185, 129, 0.08);
+}
